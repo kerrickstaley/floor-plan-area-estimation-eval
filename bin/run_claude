@@ -1,0 +1,2 @@
+#!/bin/bash
+claude --model claude-opus-4-8 --dangerously-skip-permissions -p "$(cat prompt.txt)"
