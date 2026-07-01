@@ -1,3 +1,5 @@
 For each floorplan image in input_images, rescale it so that 10 px = 1 ft and stack two copies of the rescaled image vertically on top of each other, then in the bottom copy fill in all interior areas of the floor plan (including exterior walls, but excluding balconies and other outdoor areas) with the color green (#00FF00). Name the output file output_images/<original file basename>.png.
 
 If using uv please use `uv run --with` instead of adding dependencies to this project.
+
+Do not look at files outside this directory (other than using system-wide installed binaries).
