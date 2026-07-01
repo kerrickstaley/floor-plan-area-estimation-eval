@@ -1,0 +1,89 @@
+#!/usr/bin/env -S uv run python
+import argparse
+import math
+from pathlib import Path
+
+from PIL import Image, ImageChops
+
+
+GREEN = (0, 255, 0)
+UPSCALE = 4
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("paths", nargs="+", type=Path)
+    return parser.parse_args()
+
+
+def get_solution_path(output_path: Path) -> Path:
+    parts = list(output_path.parts)
+    matches = [i for i, part in enumerate(parts) if part == "output_images"]
+    if len(matches) != 1:
+        raise ValueError(f"expected exactly one output_images directory in {output_path}")
+    parts[matches[0]] = "solution_images"
+    return Path(*parts)
+
+
+def load_rgb(path: Path) -> Image.Image:
+    if not path.exists():
+        raise FileNotFoundError(path)
+    with Image.open(path) as image:
+        return image.convert("RGB")
+
+
+def green_mask(image: Image.Image) -> Image.Image:
+    red, green, blue = image.split()
+    red_mask = red.point(lambda value: 255 if value == GREEN[0] else 0)
+    green_mask_ = green.point(lambda value: 255 if value == GREEN[1] else 0)
+    blue_mask = blue.point(lambda value: 255 if value == GREEN[2] else 0)
+    return ImageChops.multiply(ImageChops.multiply(red_mask, green_mask_), blue_mask)
+
+
+def count_mask(mask: Image.Image) -> int:
+    return mask.histogram()[255]
+
+
+def scale_ratio(output_image: Image.Image, solution_image: Image.Image) -> float:
+    output_area = output_image.width * output_image.height
+    solution_area = solution_image.width * solution_image.height
+    return math.sqrt(output_area / solution_area)
+
+
+def iou(output_image: Image.Image, solution_image: Image.Image) -> float:
+    target_size = (solution_image.width * UPSCALE, solution_image.height * UPSCALE)
+    output_mask = green_mask(output_image.resize(target_size, Image.Resampling.NEAREST))
+    solution_mask = green_mask(solution_image.resize(target_size, Image.Resampling.NEAREST))
+
+    intersection = count_mask(ImageChops.multiply(output_mask, solution_mask))
+    union = count_mask(ImageChops.lighter(output_mask, solution_mask))
+    if union == 0:
+        raise ValueError("green mask union is empty")
+    return intersection / union
+
+
+def evaluate(output_path: Path) -> tuple[float, float, float]:
+    solution_path = get_solution_path(output_path)
+    output_image = load_rgb(output_path)
+    solution_image = load_rgb(solution_path)
+
+    ratio = scale_ratio(output_image, solution_image)
+    output_green = count_mask(green_mask(output_image))
+    solution_green = count_mask(green_mask(solution_image))
+    if output_green == 0:
+        raise ValueError(f"output green area is empty: {output_path}")
+    if solution_green == 0:
+        raise ValueError(f"solution green area is empty: {solution_path}")
+
+    final_area_ratio = output_green / solution_green
+    return math.log10(ratio), iou(output_image, solution_image), math.log10(final_area_ratio)
+
+
+def main() -> None:
+    for path in parse_args().paths:
+        values = evaluate(path)
+        print(",".join(format(value, ".12g") for value in values))
+
+
+if __name__ == "__main__":
+    main()
