@@ -1,2 +1,2 @@
 #!/bin/bash
-codex --dangerously-bypass-approvals-and-sandbox exec "$(cat prompt.txt)"
+codex --dangerously-bypass-approvals-and-sandbox exec --model gpt-5.5 "$(cat prompt.txt)"
