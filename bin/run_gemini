@@ -1,0 +1,2 @@
+#!/bin/bash
+agy --dangerously-skip-permissions --model gemini-3.5-flash --print "$(cat prompt.txt)"
