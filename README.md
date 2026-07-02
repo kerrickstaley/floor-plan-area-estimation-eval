@@ -5,6 +5,11 @@ I evaluated GPT-5.5 in Codex CLI and Claude Opus 4.8 in Claude Code CLI on a set
 
 GPT-5.5 achieved an average error of 23.2% and Claude Opus 4.8 achieved 13.2%. The error was mostly due to mis-estimating the scale and less due to mis-marking the interior area (the error was roughly split 80-20 between these two sources for both agents). This accuracy exceeded my expectations, but I would still not trust current agents with this work if I needed good accuracy.
 
+## Output format
+I asked the agents to make output images like this, where the interior areas are marked in green and the image is scaled to 1 ft per 10 px, so that the floor area can be measured by counting the green pixels.
+
+<img src="solution_images/10_290_3rd_Avenue_29E.png" width="500px">
+
 ## Results
 
 | model | GPT-5.5 | Opus 4.8 |
