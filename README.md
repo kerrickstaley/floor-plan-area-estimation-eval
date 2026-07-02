@@ -25,6 +25,9 @@ Note that the scale MAE calculation is 2D rather than 1D: a 10% scale error alon
 ## Running this eval
 I've checked in the ground truth files and the outputs from previous agent runs, so you'll need to expunge these from Git history if you want to re-run this eval. (I hid them in a different folder and asked agents not to look outside the current folder when I did the runs, so the agents were less likely to reward hack).
 
+## Manual annotation process
+Often floor plans have multiple dimension annotations that slightly disagree, so I computed the implied scale from 2-4 different annotations and took the median. See manual_scale_measurements.xlsx .
+
 ## Commentary
 Each run processed all 15 inputs, and the agents generally used a similar strategy for all 15 inputs within a single run. This means that the errors within a run are correlated with each other; if the agent picked a poor strategy during that run, all estimates would be off. This correlation means the error estimates themselves have higher error bars than we would naively expect given the sample size. Codex was especially affected by this; its per-run final area MAE ranged from 0.0447 (run 1) to 0.1522 (run 2) log10 units, whereas Claude Code was more consistent, ranging from 0.0444 (run 4) to 0.0612 (run 3).
 
