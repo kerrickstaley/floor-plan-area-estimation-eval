@@ -1,4 +1,4 @@
-# Compute floor plan area micro-eval
+# Floor plan area LLM agent micro-eval
 This is an LLM agent micro-eval where I asked the agent to compute the square footage of an apartment given a floor plan of the apartment. This involved two steps: determining the scale of the floor plan by looking at room dimension labels (e.g. 20' x 12'), and marking the parts of the floor plan that count as square footage (interior areas and exterior walls, but not exterior areas like balconies).
 
 I evaluated GPT-5.5 in Codex CLI and Claude Opus 4.8 in Claude Code CLI on a set of 15 floor plans. I did 4 runs with each agent; each run asked the agent to process all 15 input images. I separately hand-measured and hand-marked each floor plan as ground truth.
