@@ -7,9 +7,9 @@ GPT-5.5 achieved an average error of 23.2% and Claude Opus 4.8 achieved 13.2%. T
 
 ## Results
 
-| harness | Codex | Claude Code |
 | model | GPT-5.5 | Opus 4.8 |
 | --- | --- | --- |
+| harness | Codex | Claude Code |
 | MAE of scale (log10 space, 2D) | 0.0861 | 0.0511 |
 | mean IOU of marked area | 0.9034 | 0.9502 |
 | MAE of marked area (log10 space, 2D) | 0.0232 | 0.0139 |

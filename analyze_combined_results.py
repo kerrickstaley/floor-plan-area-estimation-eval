@@ -68,9 +68,9 @@ def transposed_markdown_table(frame: pl.DataFrame) -> str:
         "final_computed_area_mae_log10_2d": "MAE of final area (log10 space, 2D)",
     }
     rows = [
-        ("harness", *frame["harness"].to_list()),
         ("model", *frame["model"].to_list()),
         ("---", *["---"] * len(frame["label"])),
+        ("harness", *frame["harness"].to_list()),
     ]
     for column in frame.drop("label", "harness", "model").columns:
         rows.append((metric_labels[column], *frame[column].to_list()))
