@@ -84,3 +84,39 @@ def transposed_markdown_table(frame: pl.DataFrame) -> str:
 
 
 print(transposed_markdown_table(summary))
+
+
+# %%
+per_run_final_area = (
+    results.group_by("label", "harness", "model", "run_number", maintain_order=True)
+    .agg(
+        pl.col("log10_area_diff").abs().mean().round(4).alias("final_area_mae_log10_2d")
+    )
+    .pivot(
+        on="run_number",
+        index=["label", "model", "harness"],
+        values="final_area_mae_log10_2d",
+        sort_columns=True,
+    )
+    .rename(lambda column: f"run {column}" if column.isdigit() else column)
+    .select("model", "harness", pl.all().exclude("label", "model", "harness"))
+)
+
+print(per_run_final_area)
+
+
+# %%
+def markdown_table(frame: pl.DataFrame) -> str:
+    lines = [
+        "| " + " | ".join(frame.columns) + " |",
+        "| " + " | ".join(["---"] * len(frame.columns)) + " |",
+    ]
+    for row in frame.rows():
+        values = [
+            f"{value:.4f}" if isinstance(value, float) else str(value) for value in row
+        ]
+        lines.append("| " + " | ".join(values) + " |")
+    return "\n".join(lines)
+
+
+print(markdown_table(per_run_final_area))

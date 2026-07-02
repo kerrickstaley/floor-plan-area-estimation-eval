@@ -12,5 +12,13 @@ GPT-5.5 achieved an average error of 23.2% and Claude Opus 4.8 achieved 13.2%. T
 | harness | Codex | Claude Code |
 | scale MAE (log10 space, 2D) | 0.0861 | 0.0511 |
 | marked area mean IOU | 0.9034 | 0.9502 |
-| marked area MAE (log10 space, 2D) | 0.0232 | 0.0139 |
-| final area MAE (log10 space, 2D) | 0.0906 | 0.0539 |
+| marked area MAE (log10 space) | 0.0232 | 0.0139 |
+| final area MAE (log10 space) | 0.0906 | 0.0539 |
+
+For the scale MAE calculation, a 10% linear error in the scale translates to a log10(1.1 ** 2) = 0.0828 error in 2D log10 space.
+
+## Running this eval
+I've checked in the ground truth files and the outputs from previous agent runs, so you'll need to expunge these from Git history if you want to re-run this eval. (I hid them in a different folder and asked agents not to look outside the current folder when I did the runs, so the agents were less likely to reward hack).
+
+## Commentary
+Each run processed all 15 inputs, and the agents generally used a similar strategy for all 15 inputs within a single run. This means that the errors within a run are correlated with each other; if the agent picked a poor strategy during that run, all estimates would be off. This correlation means the error estimates themselves have higher error bars than we would naively expect given the sample size. Codex was especially affected by this; its per-run final area MAE ranged from 0.0447 (run 1) to 0.1522 (run 2) log10 units, whereas Claude Code was more consistent, ranging from 0.0444 (run 4) to 0.0612 (run 3).
