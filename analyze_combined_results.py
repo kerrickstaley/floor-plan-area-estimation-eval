@@ -62,10 +62,10 @@ print(summary)
 # %%
 def transposed_markdown_table(frame: pl.DataFrame) -> str:
     metric_labels = {
-        "scale_mae_log10_2d": "MAE of scale (log10 space, 2D)",
-        "scale_normalized_interior_iou_mean": "mean IOU of marked area",
-        "scale_normalized_interior_area_mae_log10_2d": "MAE of marked area (log10 space, 2D)",
-        "final_computed_area_mae_log10_2d": "MAE of final area (log10 space, 2D)",
+        "scale_mae_log10_2d": "scale MAE (log10 space, 2D)",
+        "scale_normalized_interior_iou_mean": "marked area mean IOU",
+        "scale_normalized_interior_area_mae_log10_2d": "marked area MAE (log10 space, 2D)",
+        "final_computed_area_mae_log10_2d": "final area MAE (log10 space, 2D)",
     }
     rows = [
         ("model", *frame["model"].to_list()),
