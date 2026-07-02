@@ -28,14 +28,14 @@ I've checked in the ground truth files and the outputs from previous agent runs,
 ## Commentary
 Each run processed all 15 inputs, and the agents generally used a similar strategy for all 15 inputs within a single run. This means that the errors within a run are correlated with each other; if the agent picked a poor strategy during that run, all estimates would be off. This correlation means the error estimates themselves have higher error bars than we would naively expect given the sample size. Codex was especially affected by this; its per-run final area MAE ranged from 0.0447 (run 1) to 0.1522 (run 2) log10 units, whereas Claude Code was more consistent, ranging from 0.0444 (run 4) to 0.0612 (run 3).
 
-The floor plan with the greatest overall computed area error was this one from Codex. This input has an erroneous dimension: it should say about 10'10" instead of 20'. Other runs from Codex and Claude were not tripped up by this.
+The floor plan with the greatest overall computed area error was this one from Codex, where the estimate was 2.5x the true value. This input has an erroneous dimension: it should say about 10'10" instead of 20'. Other runs from Codex and Claude were not tripped up by this.
 
 <img src="output_images/codex_run_2/23_301_East_22nd_Street_8U.png" width="500px">
 
-The floor plan with the greatest marked area error was this one from Codex. I'm not sure what happened; this is a very easy input where the solution is just a rectangle, but it drew a rectangle that was too wide.
+The floor plan with the greatest marked area error was this one from Codex, where the marked area was 32% too large. I'm not sure what happened; this is a very easy input where the solution is just a rectangle, but it drew a rectangle that was too wide.
 
 <img src="output_images/codex_run_4/39_200_East_23rd_Street_8D.png" width="500px">
 
-A more interesting failure was this floor plan from Codex, where it failed to mark large parts of the floor plan.
+A more interesting failure was this floor plan from Codex, where it failed to mark 20% of the floor plan.
 
 <img src="output_images/codex_run_4/09_1_Irving_Place_G9B.png" width="500px">
