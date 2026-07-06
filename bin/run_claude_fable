@@ -1,0 +1,2 @@
+#!/bin/bash
+claude --model claude-fable-5 --dangerously-skip-permissions -p "$(cat prompt.txt)" --verbose
