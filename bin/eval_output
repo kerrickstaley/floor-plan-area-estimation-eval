@@ -17,12 +17,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def get_solution_path(output_path: Path) -> Path:
-    parts = list(output_path.parts)
-    matches = [i for i, part in enumerate(parts) if part == "output_images"]
-    if len(matches) != 1:
-        raise ValueError(f"expected exactly one output_images directory in {output_path}")
-    parts[matches[0]] = "solution_images"
-    return Path(*parts)
+    return Path("solution_images") / output_path.name
 
 
 def load_rgb(path: Path) -> Image.Image:
